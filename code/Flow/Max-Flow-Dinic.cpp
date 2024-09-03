@@ -1,10 +1,14 @@
-const int MXN = 1100; // vertex
+const int N = 1100; // vertex
 struct Dinic{
-    struct Edge{ int v,f,re; };
-    int n,s,t,level[MXN];
-    vector<Edge> ed[MXN];
+    struct Edge {
+        int v, f, re;
+    };
+    int n,s,t,level[N];
+    vector<Edge> ed[N];
     void init(int _n, int _s, int _t){
-        n = _n; s = _s; t = _t;
+        n = _n; 
+        s = _s; 
+        t = _t;
         for (int i = 0; i < n; i ++) ed[i].clear();
     }
     void add_edge(int u, int v, int f){
@@ -12,7 +16,7 @@ struct Dinic{
         ed[v].push_back({u, 0, (int)ed[u].size() - 1});
     }
     bool BFS(){
-        for (int i=0; i<n; i++) level[i] = -1;
+        for (int i = 0; i < n; i++) level[i] = -1;
         queue<int> que;
         que.push(s);
         level[s] = 0;
@@ -32,8 +36,10 @@ struct Dinic{
         int res = 0;
         for (auto &it : ed[u]){
             if (it.f > 0 && level[it.v] == level[u]+1){
-                int tf = DFS(it.v, min(nf,it.f));
-                res += tf; nf -= tf; it.f -= tf;
+                int tf = DFS(it.v, min(nf, it.f));
+                res += tf; 
+                nf -= tf; 
+                it.f -= tf;
                 ed[it.v][it.re].f += tf;
                 if (nf == 0) return res;
             } 
@@ -46,4 +52,4 @@ struct Dinic{
         res += DFS(s,2147483647);
         return res;
     } 
-}flow;
+} flow;
